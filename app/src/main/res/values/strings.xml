@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Songify</string>
+
+    <string name="label_1x">1x</string>
+    <string name="label_2x">2x</string>
+    <string name="label_3x">3x</string>
 </resources>
