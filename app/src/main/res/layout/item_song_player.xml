@@ -29,6 +29,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bg_song_background" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/robotoslab_bold"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewAlbumArt"
         android:layout_width="250dp"
@@ -69,7 +82,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
+        app:layout_constraintBottom_toTopOf="@id/progressBar"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:srcCompat="@drawable/ic_play_button" />
@@ -85,11 +98,15 @@
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toTopOf="@id/imageViewPlayPause" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineBottom"
-        android:layout_width="wrap_content"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/appMargin" />
+        android:progressTint="@color/white"
+        app:indicatorColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:trackThickness="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
