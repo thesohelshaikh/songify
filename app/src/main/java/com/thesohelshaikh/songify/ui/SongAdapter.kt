@@ -104,9 +104,11 @@ class SongAdapter(
         private fun setupProgressIndicator() {
             val handler = Handler(Looper.getMainLooper())
             durationRunnable = Runnable {
-                binding.progressBar.progress =
-                    ((player!!.currentPosition * 100) / player!!.duration).toInt()
-                handler.postDelayed(durationRunnable, 1)
+                player?.let {
+                    binding.progressBar.progress =
+                        ((player!!.currentPosition * 100) / player!!.duration).toInt()
+                    handler.postDelayed(durationRunnable, 1)
+                }
             }
             handler.postDelayed(durationRunnable, 0)
         }
