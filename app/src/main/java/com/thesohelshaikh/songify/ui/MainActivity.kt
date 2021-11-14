@@ -1,112 +1,77 @@
 package com.thesohelshaikh.songify.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import com.thesohelshaikh.songify.R
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
+import com.thesohelshaikh.songify.data.Song
+import com.thesohelshaikh.songify.databinding.ActivityMainBinding
 
-import androidx.core.content.res.ResourcesCompat
-import com.google.android.exoplayer2.*
-import com.thesohelshaikh.songify.databinding.ItemSongPlayerBinding
+class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), Player.EventListener {
-    private lateinit var binding: ItemSongPlayerBinding
-
-    private var player: ExoPlayer? = null
-    private var playWhenReady = true
-    private var currentWindow = 0
-    private var playbackPosition = 0L
-    lateinit var  durationRunnable: Runnable
+    lateinit var songAdapter: SongAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ItemSongPlayerBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupPlayPauseButton()
+        setupFeed()
     }
 
-    override fun onStart() {
-        super.onStart()
-        initializePlayer()
-    }
+    private fun setupFeed() {
+        val videoItems = ArrayList<Song>()
 
-    private fun setupPlayPauseButton() {
-        binding.imageViewPlayPause.setOnClickListener {
-            if (player?.isPlaying == true) {
-                player?.pause()
-            } else {
-                player?.play()
-            }
-        }
-    }
+        val song1 = Song(
+            songURL = "https://filesamples.com/samples/audio/m4a/sample4.m4a",
+            songTitle = "Title 1",
+            artistName = "Artist 1"
+        )
+        val song2 = Song(
+            songURL = "https://filesamples.com/samples/audio/m4a/sample3.m4a",
+            songTitle = "Title 2",
+            artistName = "Artist 2"
+        )
+        val song3 = Song(
+            songURL = "https://filesamples.com/samples/audio/m4a/sample1.m4a",
+            songTitle = "Title 3",
+            artistName = "Artist 3"
+        )
+        val song4 = Song(
+            songURL = "https://filesamples.com/samples/audio/m4a/sample2.m4a",
+            songTitle = "Title 4",
+            artistName = "Artist 4"
+        )
+        val song5 = Song(
+            songURL = "https://download.samplelib.com/mp3/sample-3s.mp3",
+            songTitle = "Title 5",
+            artistName = "Artist 5"
+        )
 
-    private fun initializePlayer() {
-        player = ExoPlayer.Builder(this)
-            .build()
-            .also { exoPlayer ->
-                val mediaItem =
-                    MediaItem.fromUri("https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3")
-                exoPlayer.setMediaItem(mediaItem)
-                exoPlayer.playWhenReady = playWhenReady
-                exoPlayer.seekTo(0, playbackPosition)
-                exoPlayer.prepare()
-            }
-        updatePlayButtonUi(playWhenReady)
+        videoItems.add(song1)
+        videoItems.add(song2)
+        videoItems.add(song3)
+        videoItems.add(song4)
+        videoItems.add(song5)
 
-        player?.addListener(object : Player.Listener {
-            override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-                super.onPlayWhenReadyChanged(playWhenReady, reason)
-                updatePlayButtonUi(playWhenReady)
-            }
-        })
+        songAdapter = SongAdapter(this, videoItems)
+        binding.viewPagerFeed.apply {
+            adapter = songAdapter
+            setPageTransformer(DepthPageTransformer())
+            registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
 
-        setupProgressIndicator()
-    }
-
-    private fun setupProgressIndicator() {
-        val handler = Handler(Looper.getMainLooper())
-        durationRunnable = Runnable {
-            binding.progressBar.progress =
-                ((player!!.currentPosition * 100) / player!!.duration).toInt()
-            handler.postDelayed(durationRunnable, 1)
-        }
-        handler.postDelayed(durationRunnable, 0)
-    }
-
-    private fun updatePlayButtonUi(playWhenReady: Boolean) {
-        if (playWhenReady) {
-            binding.imageViewPlayPause.setImageDrawable(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_pause_button,
-                    null
-                )
-            )
-        } else {
-            binding.imageViewPlayPause.setImageDrawable(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_play_button,
-                    null
-                )
-            )
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    // TODO: Loading the item each time page is loaded, can be optimized
+                    songAdapter.notifyItemChanged(position)
+                }
+            })
         }
     }
 
     override fun onStop() {
         super.onStop()
-        releasePlayer()
-    }
-
-    private fun releasePlayer() {
-        player?.run {
-            playbackPosition = this.currentPosition
-            currentWindow = this.currentWindowIndex
-            playWhenReady = this.playWhenReady
-            release()
-        }
-        player = null
+        songAdapter.releasePlayer()
     }
 }
