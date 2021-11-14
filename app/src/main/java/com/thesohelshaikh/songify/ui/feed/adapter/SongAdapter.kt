@@ -1,8 +1,10 @@
-package com.thesohelshaikh.songify.ui
+package com.thesohelshaikh.songify.ui.feed.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
@@ -16,10 +18,19 @@ import com.thesohelshaikh.songify.databinding.ItemSongPlayerBinding
 
 
 class SongAdapter(
-    private val context: Context,
-    private val videoItems: List<Song>
+    private val context: Context
 ) :
     RecyclerView.Adapter<SongAdapter.SongViewHolder?>() {
+    companion object {
+        private const val TAG = "SongAdapter"
+    }
+
+    var data = ArrayList<Song>()
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     var player: ExoPlayer? = null
     private var playWhenReady = true
@@ -39,26 +50,24 @@ class SongAdapter(
     }
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
-        holder.setVideoData(videoItems[position])
+        holder.bind(data[position])
     }
 
     override fun getItemCount(): Int {
-        return videoItems.size
+        return data.size
     }
 
     inner class SongViewHolder(val binding: ItemSongPlayerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         lateinit var durationRunnable: Runnable
 
-        fun setVideoData(videoItem: Song) {
+        fun bind(song: Song) {
             binding.apply {
-                textViewSongTitle.text = videoItem.songTitle
-                textViewArtistName.text = videoItem.artistName
+                textViewSongTitle.text = song.title
+                textViewArtistName.text = song.creator.email
             }
 
-            videoItem.songURL?.let { songUrl ->
-                playSong(songUrl)
-            }
+            playSong(song.audioUrl)
 
             setupPlayPauseButton()
 
@@ -84,6 +93,7 @@ class SongAdapter(
         }
 
         private fun playSong(songUrl: String) {
+            Log.d(TAG, "Playing Song: $songUrl")
             player?.clearMediaItems()
             val mediaItem =
                 MediaItem.fromUri(songUrl)

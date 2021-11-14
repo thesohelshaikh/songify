@@ -1,4 +1,4 @@
-package com.thesohelshaikh.songify.ui
+package com.thesohelshaikh.songify.ui.feed.adapter
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

@@ -38,8 +38,9 @@
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.AlbumAppearance"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/dummy_album_art" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewSongTitle"
