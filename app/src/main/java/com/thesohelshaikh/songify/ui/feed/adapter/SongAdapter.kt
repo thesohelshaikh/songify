@@ -73,6 +73,23 @@ class SongAdapter(
                 onEvent(it, song)
             }
 
+            binding.buttonDownload.setOnClickListener {
+                onEvent(it, song)
+            }
+
+            binding.buttonVolume.setOnClickListener {
+                onEvent(it, song)
+            }
+
+            binding.buttonFavorite.setOnCheckedChangeListener { button, isChecked ->
+                song.isFavorite = isChecked
+                onEvent(button, song)
+            }
+
+            binding.textViewPlayBackSpeed.setOnClickListener {
+                onEvent(it, song)
+            }
+
             playSong(song.audioUrl)
 
             setupPlayPauseButton()

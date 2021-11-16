@@ -22,7 +22,9 @@ data class Song(
     val audioUrl: String,
 
     @SerializedName("creator")
-    val creator: Creator
+    val creator: Creator,
+
+    var isFavorite : Boolean = false
 ) {
     data class Creator(
         @SerializedName("userID")

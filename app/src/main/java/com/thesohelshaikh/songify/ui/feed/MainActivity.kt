@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.thesohelshaikh.songify.R
 import com.thesohelshaikh.songify.data.Song
 import com.thesohelshaikh.songify.databinding.ActivityMainBinding
+import com.thesohelshaikh.songify.ui.base.BaseActivity
 import com.thesohelshaikh.songify.ui.feed.adapter.SongAdapter
 import com.thesohelshaikh.songify.ui.feed.viewmodel.FeedViewModel
 import com.thesohelshaikh.songify.util.gone
@@ -18,7 +18,7 @@ import com.thesohelshaikh.songify.vo.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     companion object {
         private const val TAG = "MainActivity"
     }
@@ -89,7 +89,33 @@ class MainActivity : AppCompatActivity() {
     private fun handleEvent(view: View?, song: Song) {
         when (view?.id) {
             R.id.buttonShare -> shareSong(song)
+            R.id.buttonDownload -> downloadSong(song)
+            R.id.buttonVolume -> controlVolume()
+            R.id.buttonFavorite -> addSongToFavorites(song)
+            R.id.textViewPlayBackSpeed -> updatePlayBackSpeed()
         }
+    }
+
+    private fun updatePlayBackSpeed() {
+        // TODO: 16-11-2021
+    }
+
+    private fun addSongToFavorites(song: Song) {
+        // TODO: 16-11-2021
+        if (song.isFavorite) {
+            showMessage(getString(R.string.message_song_added_to_favorites))
+        } else {
+            showMessage(getString(R.string.message_song_removed_from_favorites))
+        }
+    }
+
+    private fun controlVolume() {
+        // TODO: 16-11-2021
+    }
+
+    private fun downloadSong(song: Song) {
+        // TODO: 16-11-2021
+        showMessage(getString(R.string.message_song_is_downloading))
     }
 
     private fun shareSong(song: Song) {
