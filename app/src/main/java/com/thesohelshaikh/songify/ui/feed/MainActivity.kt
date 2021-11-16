@@ -14,6 +14,7 @@ import com.thesohelshaikh.songify.ui.feed.adapter.SongAdapter
 import com.thesohelshaikh.songify.ui.feed.viewmodel.FeedViewModel
 import com.thesohelshaikh.songify.util.gone
 import com.thesohelshaikh.songify.util.show
+import com.thesohelshaikh.songify.vo.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,17 +40,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeSongsResponse() {
-        viewModel.songsResponse.observe(this) { songs ->
-            if (!songs.isNullOrEmpty()) {
-                binding.progressBar.gone()
-                Log.d(TAG, "Fetched songs (${songs.size}) = $songs")
-                songAdapter.data = songs
+        viewModel.songsResponse.observe(this) { resource ->
+            when (resource.status) {
+                Status.ERROR -> {
+                    Log.e(TAG, "observeSongsResponse: ${resource.message}")
+                }
+                Status.SUCCESS -> {
+                    resource.data?.let { songs ->
+                        if (!songs.isNullOrEmpty()) {
+                            binding.progressBar.gone()
+                            Log.d(TAG, "Fetched songs (${songs.size}) = $songs")
+                            songAdapter.data = songs
+                        }
+                    }
+                }
+                Status.LOADING -> {
+                    binding.progressBar.show()
+                }
             }
         }
     }
 
     private fun fetchSongs() {
-        binding.progressBar.show()
         viewModel.getSongs()
     }
 
