@@ -104,10 +104,13 @@ class SongAdapter(
 
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     super.onPlaybackStateChanged(playbackState)
-                    // play song again after it ends
                     if (playbackState == Player.STATE_ENDED) {
-                        player?.seekTo(0)
-                        player?.play()
+                        if (data.indexOf(song) != data.lastIndex &&
+                            ((player!!.currentPosition * 100) / player!!.duration)
+                                .toInt() == 100
+                        ) {
+                            onEvent(binding.progressBar, song)
+                        }
                     }
                 }
             })

@@ -93,6 +93,18 @@ class MainActivity : BaseActivity() {
             R.id.buttonVolume -> controlVolume()
             R.id.buttonFavorite -> addSongToFavorites(song)
             R.id.textViewPlayBackSpeed -> updatePlayBackSpeed()
+            R.id.progressBar -> moveToNextSong(song)
+        }
+    }
+
+    private fun moveToNextSong(song: Song) {
+        Log.d(TAG, "moveToNextSong: curr: ${binding.viewPagerFeed.currentItem}")
+        if (songAdapter.data.size == binding.viewPagerFeed.currentItem + 1) {
+            // it is last song
+            return
+        } else {
+            binding.viewPagerFeed.setCurrentItem(binding.viewPagerFeed.currentItem + 1, true)
+            songAdapter.player?.seekTo(0)
         }
     }
 
