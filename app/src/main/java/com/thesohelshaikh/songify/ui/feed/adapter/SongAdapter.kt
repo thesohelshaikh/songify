@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,8 @@ import com.thesohelshaikh.songify.databinding.ItemSongPlayerBinding
 
 
 class SongAdapter(
-    private val context: Context
+    private val context: Context,
+    private val onEvent: (view: View?, song: Song) -> Unit
 ) :
     RecyclerView.Adapter<SongAdapter.SongViewHolder?>() {
     companion object {
@@ -65,6 +67,10 @@ class SongAdapter(
             binding.apply {
                 textViewSongTitle.text = song.title
                 textViewArtistName.text = song.creator.email
+            }
+
+            binding.buttonShare.setOnClickListener {
+                onEvent(it, song)
             }
 
             playSong(song.audioUrl)

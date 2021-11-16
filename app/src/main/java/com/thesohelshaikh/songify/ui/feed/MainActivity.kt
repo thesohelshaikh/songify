@@ -1,10 +1,14 @@
 package com.thesohelshaikh.songify.ui.feed
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.thesohelshaikh.songify.R
+import com.thesohelshaikh.songify.data.Song
 import com.thesohelshaikh.songify.databinding.ActivityMainBinding
 import com.thesohelshaikh.songify.ui.feed.adapter.SongAdapter
 import com.thesohelshaikh.songify.ui.feed.viewmodel.FeedViewModel
@@ -50,7 +54,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupFeed() {
-        songAdapter = SongAdapter(this)
+        songAdapter = SongAdapter(this) { view: View?, song: Song ->
+            handleEvent(view, song)
+
+        }
         binding.viewPagerFeed.apply {
             adapter = songAdapter
             // TODO: 15-11-2021 Messes UI
@@ -65,6 +72,25 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    private fun handleEvent(view: View?, song: Song) {
+        when (view?.id) {
+            R.id.buttonShare -> shareSong(song)
+        }
+    }
+
+    private fun shareSong(song: Song) {
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            "Hey, I am listening to ${song.title} " +
+                    "by ${song.creator.email} " +
+                    "on ${getString(R.string.app_name)}"
+        )
+        shareIntent.type = "text/plain"
+        startActivity(Intent.createChooser(shareIntent, "send to"))
     }
 
     override fun onStop() {
