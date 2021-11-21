@@ -6,6 +6,8 @@ TikTok for songs
 - [x] play/pause the song
 - [x] swipe up/down to navigate to the next song
 - [x] automatically navigate to next song on completion of current song
+- [x] change playback speeds
+- [x] mute/unmute player
 
 ## Screenshots
 <img src= "https://user-images.githubusercontent.com/26832180/141697355-edb78132-5396-4b33-b29c-00545c9d8d7a.png" width = "250px"/>
@@ -31,6 +33,8 @@ TikTok for songs
 
 ## Extension Ideas
 - Download song
-- Control volume
-- Change playback speed
 - Save favorite songs locally
+- Show tutorial - how to use the app for first time users
+- Play song in background using foreground service
+- Improve song plaback performance
+- Add adaptive streaming
