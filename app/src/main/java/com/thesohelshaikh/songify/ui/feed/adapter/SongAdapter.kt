@@ -16,6 +16,7 @@ import com.google.android.exoplayer2.Player
 import com.thesohelshaikh.songify.R
 import com.thesohelshaikh.songify.data.Song
 import com.thesohelshaikh.songify.databinding.ItemSongPlayerBinding
+import com.thesohelshaikh.songify.util.playbackSpeed
 
 
 class SongAdapter(
@@ -67,6 +68,7 @@ class SongAdapter(
             binding.apply {
                 textViewSongTitle.text = song.title
                 textViewArtistName.text = song.creator.email
+                updatePlaybackText()
             }
 
             binding.buttonShare.setOnClickListener {
@@ -87,7 +89,13 @@ class SongAdapter(
             }
 
             binding.textViewPlayBackSpeed.setOnClickListener {
-                onEvent(it, song)
+                val newSpeed = when (player?.playbackSpeed) {
+                    1f -> 2f
+                    2f -> 3f
+                    else -> 1f
+                }
+                player?.playbackSpeed= newSpeed
+                updatePlaybackText()
             }
 
             playSong(song.audioUrl)
@@ -116,6 +124,17 @@ class SongAdapter(
             })
 
             setupProgressIndicator()
+        }
+
+        private fun updatePlaybackText() {
+            val playBackText = when (player?.playbackSpeed) {
+                1f -> R.string.label_1x
+                2f -> R.string.label_2x
+                else -> R.string.label_3x
+            }
+
+            binding.textViewPlayBackSpeed.text =
+                binding.textViewPlayBackSpeed.context.getText(playBackText)
         }
 
         private fun playSong(songUrl: String) {

@@ -13,6 +13,7 @@ import com.thesohelshaikh.songify.ui.base.BaseActivity
 import com.thesohelshaikh.songify.ui.feed.adapter.SongAdapter
 import com.thesohelshaikh.songify.ui.feed.viewmodel.FeedViewModel
 import com.thesohelshaikh.songify.util.gone
+import com.thesohelshaikh.songify.util.playbackSpeed
 import com.thesohelshaikh.songify.util.show
 import com.thesohelshaikh.songify.vo.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,7 +93,6 @@ class MainActivity : BaseActivity() {
             R.id.buttonDownload -> downloadSong(song)
             R.id.buttonVolume -> controlVolume()
             R.id.buttonFavorite -> addSongToFavorites(song)
-            R.id.textViewPlayBackSpeed -> updatePlayBackSpeed()
             R.id.progressBar -> moveToNextSong(song)
         }
     }
@@ -108,10 +108,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun updatePlayBackSpeed() {
-        // TODO: 16-11-2021
-    }
-
     private fun addSongToFavorites(song: Song) {
         // TODO: 16-11-2021
         if (song.isFavorite) {
@@ -123,6 +119,7 @@ class MainActivity : BaseActivity() {
 
     private fun controlVolume() {
         // TODO: 16-11-2021
+
     }
 
     private fun downloadSong(song: Song) {
