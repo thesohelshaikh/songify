@@ -34,11 +34,11 @@
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="?actionBarSize"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@id/textViewSongTitle"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.AlbumAppearance"
         app:srcCompat="@drawable/dummy_album_art" />
 
@@ -116,29 +116,31 @@
         android:id="@+id/buttonDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/buttonVolume"
         app:layout_constraintBottom_toBottomOf="@id/buttonVolume"
         app:layout_constraintStart_toStartOf="@id/textViewPlayBackSpeed"
+        app:layout_constraintTop_toTopOf="@id/buttonVolume"
         app:srcCompat="@drawable/ic_download" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/buttonVolume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/appMargin"
+        android:button="@drawable/ic_volume_selector"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/imageViewPlayPause"
-        app:layout_constraintStart_toStartOf="@id/imageViewPlayPause"
-        app:srcCompat="@drawable/ic_volume" />
+        app:layout_constraintStart_toStartOf="@id/imageViewPlayPause" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/buttonShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/buttonVolume"
         app:layout_constraintBottom_toBottomOf="@id/buttonVolume"
         app:layout_constraintEnd_toEndOf="@id/buttonFavorite"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:layout_constraintTop_toTopOf="@id/buttonVolume"
         app:srcCompat="@drawable/ic_share" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

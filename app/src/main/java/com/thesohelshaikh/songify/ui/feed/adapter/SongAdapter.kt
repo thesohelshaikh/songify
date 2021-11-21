@@ -80,6 +80,12 @@ class SongAdapter(
             }
 
             binding.buttonVolume.setOnClickListener {
+                val currentVolume = player?.volume
+                if (currentVolume == 0f) {
+                    player?.volume = 1f
+                } else {
+                    player?.volume = 0f
+                }
                 onEvent(it, song)
             }
 
@@ -94,7 +100,7 @@ class SongAdapter(
                     2f -> 3f
                     else -> 1f
                 }
-                player?.playbackSpeed= newSpeed
+                player?.playbackSpeed = newSpeed
                 updatePlaybackText()
             }
 
